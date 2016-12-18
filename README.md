@@ -1,4 +1,5 @@
 # pcap-parser
 pcap parser in python
 
-parse pcap file and print plain text on web browser
+Parse pcap file and print plain text on web browser.
+Using Django for this task.
