@@ -18,15 +18,16 @@ testcap = open("/home/manish/PycharmProjects/pcap/webapp/Test.pcap")
 capfile = savefile.load_savefile(testcap, verbose=True)
 
 
-
 def index(request):
     answer = [
+
+
         str(ip.IP(binascii.unhexlify(ethernet.Ethernet(capfile.packets[0].raw()).payload))),
         str(capfile.packets[0].timestamp),
+        str(ethernet.Ethernet(capfile.packets[0].raw()))
 
     ]
 
-    return HttpResponse("\n".join(answer))
-
+    return HttpResponse("<br>".join(answer))
 
 
