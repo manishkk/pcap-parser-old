@@ -11,25 +11,36 @@ from pcapfile.protocols.linklayer import ethernet
 from pcapfile.protocols.network import ip
 import binascii
 
-testcap = open("/home/manish/PycharmProjects/pcap/webapp/Test.pcap")
+testcap = open("/home/manish/PycharmProjects/pcap/webapp/Test_2.pcap")
 capfile = savefile.load_savefile(testcap, verbose=True)
 
-ip_packet =ip.IP(binascii.unhexlify(ethernet.Ethernet(capfile.packets[0].raw()).payload));
-mac_packet = ethernet.Ethernet(capfile.packets[0].raw());
-packet = capfile.packets[0];
+
 
 
 
 def index(request):
-        answer = [
+                answer = []
+                for packet in capfile.packets:
+                    try:
+                        ip_packet = ip.IP(binascii.unhexlify(ethernet.Ethernet(packet.raw()).payload))
+                        mac_packet = ethernet.Ethernet(packet.raw());
+                        answer.extend([
 
-                 str(packet.timestamp),
-                 str(mac_packet.src),
-                 str(mac_packet.dst),
-                 str(ip_packet.src),
-                 str(ip_packet.dst),
-                 str(packet.packet_len),
+                             str(packet.timestamp),   #timestamp
+                             str(mac_packet.src),   #Sender Mac Address
+                             str(mac_packet.dst),   #Receiver Mac Address
+                             str(ip_packet.src),    #Sender IP
+                             str(ip_packet.dst),    #Receiver IP
+                             str(ip_packet.len),    #Payload lenght with IP header
+                             str(ip_packet),        #Print whole packet information
+                             str(mac_packet.type),  #Protocol Type
+                             str(len(capfile.packets)), #Lenght of Pcacp file
 
+                            ""
 
-                ]
-        return HttpResponse("<br>".join(answer))
+                            ])
+                    except:
+                        import traceback
+                        traceback.print_exc()
+
+                return HttpResponse("<br>" . join(answer))
