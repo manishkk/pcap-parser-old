@@ -1,10 +1,6 @@
 from django.shortcuts import render
 # Create your views here.
 from django.shortcuts import render
-import dpkt
-import scapy
-import socket
-import struct
 from django.http import HttpResponse
 from pcapfile import savefile
 from pcapfile.protocols.linklayer import ethernet
